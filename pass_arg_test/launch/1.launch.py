@@ -18,10 +18,12 @@ def generate_launch_description():
     
     bringup_dir = get_package_share_directory('pass_arg_test')
     
-    return LaunchDescription([
-        declare_test_name_cmd,
-        LogInfo(msg=LaunchConfiguration('test_name')),
-        IncludeLaunchDescription(
+    launch_2 = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(bringup_dir, 'launch', '2.py')),
             launch_arguments={'test_name': test_name}.items())
+    
+    return LaunchDescription([
+        declare_test_name_cmd,
+        LogInfo(msg=['test_name in 1.launch.py is ', LaunchConfiguration('test_name')]),
+        launch_2
     ])
